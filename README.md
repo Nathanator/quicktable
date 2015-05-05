@@ -19,9 +19,8 @@ Using quicktable is very simple; in the below example we initialise a table with
 finally print it out.
 
 ```python
->>> from quicktable import Table, Schema
->>> schema = Schema(['Name', 'Age'], [str, int])
->>> table = Table(schema)
+>>> from quicktable import Table
+>>> table = Table(('Name', str), ('Age', int))
 >>> table.append('Ash', 10)
 >>> table.append('Misty', 12)
 >>> print(table)
