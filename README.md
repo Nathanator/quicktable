@@ -14,12 +14,21 @@ print it out.
 >>> from quicktable import Table, Schema
 >>> schema = Schema(['Name', 'Age'], [str, int])
 >>> table = Table(schema)
->>> table.append(['Ash', 10])
->>> table.append(['Misty', 12])
->>> table.append(['Brock', 15])
+>>> table.append('Ash', 10)
+>>> table.append('Misty', 12)
 >>> print(table)
 | Name  | (int) Age |
 | Ash   | 10        |
 | Misty | 12        |
-| Brock | 15        |
+```
+
+You can add new columns to an existing column statically or dynamically:
+
+```python
+>>> table.extend('Profession', str, 'Trainer')
+>>> table.extend('YearsToAdult', int, lambda row: 18 - row.Age)
+>>> print(table)
+| Name  | (int) Age | Profession | (int) YearsToAdult |
+| Ash   | 10        | Trainer    | 8                  |
+| Misty | 12        | Trainer    | 6                  |
 ```
