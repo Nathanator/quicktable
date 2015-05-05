@@ -33,8 +33,8 @@ finally print it out.
 quicktable columns can be extended statically or dynamically:
 
 ```python
->>> table.extend('Profession', str, 'Trainer')
->>> table.extend('YearsToAdult', int, lambda row: 18 - row.Age)
+>>> table = table.extend('Profession', str, 'Trainer')
+>>> table = table.extend('YearsToAdult', int, lambda row: 18 - row.Age)
 >>> print(table)
 | Name  | (int) Age | Profession | (int) YearsToAdult |
 | Ash   | 10        | Trainer    | 8                  |
@@ -44,7 +44,8 @@ quicktable columns can be extended statically or dynamically:
 quicktables can be easily filtered
 
 ```python
->>> table.filter(lambda row: row.Name == 'Ash')
+>>> table = table.filter(lambda row: row.Name == 'Ash')
+>>> print(table)
 | Name  | (int) Age | Profession | (int) YearsToAdult |
 | Ash   | 10        | Trainer    | 8                  |
 ```
