@@ -14,6 +14,10 @@ class Table:
         for value, column in zip(values, self.columns.values()):
             column.values.append(value)
 
+    def extend(self, *rows):
+        for row in rows:
+            self.append(*row)
+
     def filter(self, function):
         return filter(function, self)
 
