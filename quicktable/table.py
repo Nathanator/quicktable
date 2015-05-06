@@ -1,4 +1,4 @@
-from itertools import islice
+from itertools import islice, takewhile
 from collections import OrderedDict, namedtuple
 
 from quicktable import Column
@@ -18,11 +18,12 @@ class Table:
             for value, column in zip(values, self.columns.values()):
                 column.values.append(value)
         except TypeError:
+            # If an invalid type was appended to an array, pop the other new column values before failing.
             previous_length = len(list(self.columns.values())[-1].values)
 
-            for column in self.columns.values():
-                if len(column.values) > previous_length:
-                    column.values.pop()
+            for column in takewhile(lambda col: len(col.values) > previous_length, self.columns.values()):
+                column.values.pop()
+
             raise
 
     def extend(self, *rows):

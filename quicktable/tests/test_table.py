@@ -1,3 +1,4 @@
+from array import array
 from unittest import TestCase
 from collections import OrderedDict
 
@@ -60,7 +61,9 @@ class TestTable(TestCase):
         except TypeError:
             pass
 
-        self.assertEqual(self.table[:], [
-            self.table.row_tuple(Pokemon='Charmander', Level=14, Type='Fire'),
-            self.table.row_tuple(Pokemon='Squirtle', Level=12, Type='Water'),
-        ])
+        values = list(self.table.columns.values())
+
+        self.assertEqual(
+            (values[0].values, values[1].values, values[2].values),
+            (['Charmander', 'Squirtle'], array('i', [14, 12]), ['Fire', 'Water'])
+        )
