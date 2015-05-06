@@ -29,17 +29,6 @@ finally print it out.
 | Misty | 12        |
 ```
 
-quicktable columns can be extended statically or dynamically:
-
-```python
->>> table = table.extend('Profession', str, 'Trainer')
->>> table = table.extend('YearsToAdult', int, lambda row: 18 - row.Age)
->>> print(table)
-| Name  | (int) Age | Profession | (int) YearsToAdult |
-| Ash   | 10        | Trainer    | 8                  |
-| Misty | 12        | Trainer    | 6                  |
-```
-
 quicktables can be easily filtered
 
 ```python
