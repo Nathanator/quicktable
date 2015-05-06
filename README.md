@@ -1,11 +1,11 @@
 quicktable
 ==========
 
-quicktable is a Pythonic representation of tabular data. quicktable is designed to have no dependancies on external
+quicktable is a Pythonic representation of tabular data. quicktable is designed to have no dependencies on external
 modules, be beautifully represented in code and require very little learning to use.
 
 quicktables can be filtered, unioned, pivoted and its columns can be transformed, removed, extended and renamed among
-other operations. Read the full documented to see what quicktables are capable of.
+other operations. Read the full documentation to see what quicktables are capable of.
 
 Installation
 ------------
