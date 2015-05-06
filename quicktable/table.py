@@ -31,6 +31,9 @@ class Table:
 
         return self.row_tuple(*[column[index] for column in self.columns.values()])
 
+    def __len__(self):
+        return len(next(iter(self.columns.values())).values)
+
     def __str__(self):
         return '<quicktable.Table object at {0}>'.format(hex(id(self)))
 
