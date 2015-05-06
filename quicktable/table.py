@@ -11,8 +11,19 @@ class Table:
 
     def append(self, *values):
         """Append the values as a new row to the table."""
-        for value, column in zip(values, self.columns.values()):
-            column.values.append(value)
+        if len(values) != len(self.columns):
+            raise ValueError('Must supply the same number of values as there are columns.')
+
+        try:
+            for value, column in zip(values, self.columns.values()):
+                column.values.append(value)
+        except TypeError:
+            previous_length = len(list(self.columns.values())[-1].values)
+
+            for column in self.columns.values():
+                if len(column.values) > previous_length:
+                    column.values.pop()
+            raise
 
     def extend(self, *rows):
         for row in rows:

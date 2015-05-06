@@ -28,10 +28,9 @@ class TestTable(TestCase):
         self.table.append('Charmander', 14, 'Fire')
         self.table.append('Squirtle', 12, 'Water')
 
-        self.assertEqual(
-            (self.table[0], self.table[1]), (
-                self.table.row_tuple(Pokemon='Charmander', Level=14, Type='Fire'),
-                self.table.row_tuple(Pokemon='Squirtle', Level=12, Type='Water'),
+        self.assertEqual((self.table[0], self.table[1]), (
+            self.table.row_tuple(Pokemon='Charmander', Level=14, Type='Fire'),
+            self.table.row_tuple(Pokemon='Squirtle', Level=12, Type='Water'),
             )
         )
 
@@ -44,3 +43,24 @@ class TestTable(TestCase):
                 self.table.row_tuple(Pokemon='Squirtle', Level=12, Type='Water'),
             )
         )
+
+    def test_append_missing_values(self):
+        with self.assertRaises(ValueError):
+            self.table.append('This is not a Pokemon.')
+
+    def test_append_wrong_type(self):
+        with self.assertRaises(TypeError):
+            self.table.append('Pikachu', 'Not a level', 'Electric')
+
+    def test_append_wrong_type_cleanup(self):
+        self.table.extend(('Charmander', 14, 'Fire'), ('Squirtle', 12, 'Water'))
+
+        try:
+            self.table.append('Pikachu', 'Not a level', 'Electric')
+        except TypeError:
+            pass
+
+        self.assertEqual(self.table[:], [
+            self.table.row_tuple(Pokemon='Charmander', Level=14, Type='Fire'),
+            self.table.row_tuple(Pokemon='Squirtle', Level=12, Type='Water'),
+        ])
