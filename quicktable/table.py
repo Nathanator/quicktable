@@ -49,9 +49,11 @@ class Table:
         if isinstance(index, slice):
             start, stop, step = index.start, index.stop, index.step
 
-            start = 0 if start is None else start
-            stop = len(self) if stop is None else stop
-            step = 1 if step is None else step
+            start = start or 0
+            stop = stop or len(self)
+            step = step or 1
+            if stop > len(self):
+                stop = len(self)  # to stop MemoryError from huge range on Python 2.7
 
             table = Table(*self.schema)
             table.extend(*[self[i] for i in range(start, stop, step)])
