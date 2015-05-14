@@ -9,6 +9,10 @@ class Table:
         self.columns = OrderedDict((name, Column(kind)) for name, kind in schema)
         self.row_tuple = namedtuple('Row', self.columns.keys())
 
+    @property
+    def schema(self):
+        return [(name, column.kind) for name, column in self.columns.items()]
+
     def append(self, *values):
         """Append the values as a new row to the table."""
         if len(values) != len(self.columns):
@@ -43,12 +47,26 @@ class Table:
 
     def __getitem__(self, index):
         if isinstance(index, slice):
-            return list(islice(self, index.start, index.stop, index.step))
+            start, stop, step = index.start, index.stop, index.step
+
+            start = 0 if start is None else start
+            stop = len(self) if stop is None else stop
+            step = 1 if step is None else step
+
+            table = Table(*self.schema)
+            table.extend(*[self[i] for i in range(start, stop, step)])
+            return table
 
         return self.row_tuple(*[column[index] for column in self.columns.values()])
 
     def __len__(self):
         return len(next(iter(self.columns.values())).values)
+
+    def __eq__(self, other):
+        if not self.schema == other.schema:
+            return False
+
+        return all(this_row == other_row for this_row, other_row in zip(self, other))
 
     def __str__(self):
         return '<quicktable.Table object at {0}>'.format(hex(id(self)))
